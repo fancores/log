@@ -13,6 +13,8 @@ import fan.core.log.LoggerManager.Log4jEnum;
 public class Logger {
 	
 	private LoggerManager logger;
+	/** <p> 占位符 </p> */
+	private static final String PLACEHOLDER = "\\?";
 	
 	Logger(LoggerManager logger){
 		this.logger = logger;
@@ -152,9 +154,12 @@ public class Logger {
 
 	/** <p> 解析占位符 </p> */
 	private String parsePlaceholder(String source, Object... values){
-		int length = values.length;
+		if(source == null || values == null){
+			return source;
+		}
+		int length = values == null ? 0 : values.length;
 		for(int i = 0; i < length; i++){
-			source = source.replaceFirst("\\?", values[i].toString());
+			source = source.replaceFirst(PLACEHOLDER, values[i].toString());
 		}
 		return source;
 	}
